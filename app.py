@@ -13,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:yourpassword@localhost:5432/crime_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:Mojave123@localhost:5432/crime_db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # reflect an existing database into a new model
@@ -33,7 +33,6 @@ g = dflocs.to_json()
 @app.route("/")
 def index():
     """Return the homepage."""
-    print("Rendering the homepage...")
     return render_template("index.html")
 
 @app.route("/pie")
