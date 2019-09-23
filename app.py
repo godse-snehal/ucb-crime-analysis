@@ -51,5 +51,12 @@ def heatmap():
 def leaflet():
     return (g)
 
+# route for arrestcrimetype
+@app.route("/crimetype")
+def crimetype():
+    print("Rendering the arrestrates...")
+    return render_template("arrest_crimetype.html")
+
+
 if __name__ == "__main__":
     app.run()
