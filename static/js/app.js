@@ -17,7 +17,7 @@ function init() {
         };
     
         var data = [trace];
-        var layout = {title: "Top 15 Chicago Crime Type 2015-2019"};
+        var layout = {title: "Top 15 Chicago Crime Types (2015-2019)"};
 
         Plotly.newPlot("pie", data, layout);
     });
