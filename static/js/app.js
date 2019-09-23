@@ -12,12 +12,12 @@ function init() {
         }
         var trace = {
             type: "pie",
-            labels: crime_types.slice(0,10),
-            values: crime_type_values.slice(0, 10)
+            labels: crime_types.slice(0,15),
+            values: crime_type_values.slice(0, 15)
         };
     
         var data = [trace];
-        var layout = {title: ""};
+        var layout = {title: "Top 15 Chicago Crime Type 2015-2019"};
 
         Plotly.newPlot("pie", data, layout);
     });
