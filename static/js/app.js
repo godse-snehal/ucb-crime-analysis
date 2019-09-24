@@ -6,7 +6,6 @@ function init() {
         crime_types = [];
         crime_type_values = [];
         for (const [key, value] of Object.entries(response)) {
-            console.log(key, value);
             crime_types.push(key);
             crime_type_values.push(value);
         }
