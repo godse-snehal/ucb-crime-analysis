@@ -77,9 +77,19 @@ function dropdown() {
      console.log("unique")
      console.log(unique)
      let unique_sort = unique.sort()
+     console.log("unique_sort")
      console.log(unique_sort)
-     });
 
+     var selector = d3.select("#selDataset");
+     unique_sort.forEach((crime) => {
+      selector
+        .append("option")
+        .text(crime)
+        .property("value", crime);
+    });
+     });
+     
+    
   
 }
 
