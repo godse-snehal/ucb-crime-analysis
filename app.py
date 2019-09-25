@@ -56,6 +56,11 @@ def crimetype():
     print("Rendering the arrestrates...")
     return render_template("arrest_crimetype.html")
 
+# route for prediction analysis
+@app.route("/prediction")
+def prediction():
+    print("Rendering the crime prediction...")
+    return render_template("deployninas.html")
 
 if __name__ == "__main__":
     app.run()
