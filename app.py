@@ -13,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:Mojave123@localhost:5432/crime_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:yourpassword@localhost:5432/crime_db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # reflect an existing database into a new model
@@ -27,7 +27,7 @@ stmt = db.session.query(Chicago_Metadata).statement
 df = pd.read_sql_query(stmt, db.session.bind)
 print("Loaded dataframe successfully...")
 # prepare leaflet json
-dflocs = df[["primary_type", "latitude", "longitude"]].copy()
+dflocs = df[["Primary_Type", "Latitude", "Longitude"]].copy()
 g = dflocs.to_json()
 
 @app.route("/")
@@ -38,8 +38,8 @@ def index():
 @app.route("/pie")
 def pie():
     """Return a list of Primary_Types and their respective numbers"""
-    ptype = df[["primary_type"]].copy()
-    ptype_group_cnt = ptype.groupby("primary_type").size()
+    ptype = df[["Primary_Type"]].copy()
+    ptype_group_cnt = ptype.groupby("Primary_Type").size()
     return (ptype_group_cnt.to_json())
 
 @app.route("/heatmap")
@@ -53,14 +53,28 @@ def leaflet():
 # route for arrestcrimetype
 @app.route("/crimetype")
 def crimetype():
-    print("Rendering the arrestrates...")
+    print("rendering arrest_crimetype.html...")
     return render_template("arrest_crimetype.html")
 
-# route for prediction analysis
-@app.route("/prediction")
-def prediction():
-    print("Rendering the crime prediction...")
-    return render_template("deployninas.html")
+@app.route("/crimerates")
+def crimerates():
+    print("calculating crime arrest rates...")
+    dflocs = df[["Primary_Type", "Arrest"]].copy()
+    s = dflocs.groupby(["Primary_Type", "Arrest"]).size().reset_index()
+    curFalseRate = 0
+    newd = {}
+    # build a dictionary of Crime Types and Crime Rates
+    for row in s.iterrows():
+        curType = row[1].Primary_Type
+        if (curFalseRate != 0):
+            arrestRate = round((row[1][0]) / (curFalseRate + row[1][0]), 4)
+            newd[str(curType)] = arrestRate
+            curFalseRate = 0
+        else:
+            curFalseRate = row[1][0]
+
+    return(jsonify(newd))
+
 
 if __name__ == "__main__":
     app.run()
