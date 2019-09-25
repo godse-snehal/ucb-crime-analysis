@@ -13,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:Mojave123@localhost:5432/crime_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:password@localhost:5432/crime_db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # reflect an existing database into a new model
@@ -27,7 +27,7 @@ stmt = db.session.query(Chicago_Metadata).statement
 df = pd.read_sql_query(stmt, db.session.bind)
 print("Loaded dataframe successfully...")
 # prepare leaflet json
-dflocs = df[["primary_type", "latitude", "longitude"]].copy()
+dflocs = df[["Primary_Type", "Latitude", "Longitude"]].copy()
 g = dflocs.to_json()
 
 @app.route("/")
@@ -38,8 +38,8 @@ def index():
 @app.route("/pie")
 def pie():
     """Return a list of Primary_Types and their respective numbers"""
-    ptype = df[["primary_type"]].copy()
-    ptype_group_cnt = ptype.groupby("primary_type").size()
+    ptype = df[["Primary_Type"]].copy()
+    ptype_group_cnt = ptype.groupby("Primary_Type").size()
     return (ptype_group_cnt.to_json())
 
 @app.route("/heatmap")
