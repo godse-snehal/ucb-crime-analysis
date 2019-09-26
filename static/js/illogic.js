@@ -7,7 +7,7 @@ function init() {
         crime_type_rates = [];
         for (const [key, value] of Object.entries(response)) {
             crime_types.push(key);
-            crime_type_rates.push(value);
+            crime_type_rates.push(value * 100);
         }
 
         var trace1 = {
