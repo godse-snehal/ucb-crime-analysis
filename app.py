@@ -1,4 +1,6 @@
 import os
+import json
+from config import password
 
 import pandas as pd
 import numpy as np
@@ -13,7 +15,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:yourpassword@localhost:5432/crime_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:"+password+"@localhost:5432/crime_db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # reflect an existing database into a new model
@@ -26,6 +28,12 @@ Chicago_Metadata = Base.classes.chicago
 stmt = db.session.query(Chicago_Metadata).statement
 df = pd.read_sql_query(stmt, db.session.bind)
 print("Loaded dataframe successfully...")
+
+# Filter dataframe by certain crime types
+crime_types = ['THEFT', 'BATTERY', 'CRIMINAL DAMAGE', 'NARCOTICS', 'ASSAULT', 
+    'MOTOR VEHICLE THEFT', 'ROBBERY', 'WEAPONS VIOLATION', 'CONCEALED CARRY LICENSE VIOLATION', 'HOMICIDE']
+filtered_df = df[df.Primary_Type.isin(crime_types)]
+
 # prepare leaflet json
 dflocs = df[["Primary_Type", "Latitude", "Longitude"]].copy()
 g = dflocs.to_json()
@@ -38,7 +46,7 @@ def index():
 @app.route("/pie")
 def pie():
     """Return a list of Primary_Types and their respective numbers"""
-    ptype = df[["Primary_Type"]].copy()
+    ptype = filtered_df[["Primary_Type"]].copy()
     ptype_group_cnt = ptype.groupby("Primary_Type").size()
     return (ptype_group_cnt.to_json())
 
@@ -74,6 +82,39 @@ def crimerates():
             curFalseRate = row[1][0]
 
     return(jsonify(newd))
+
+@app.route("/line")
+def line():
+    """Return a list of crime type grouped by year"""
+    crime_df = filtered_df[["Primary_Type", "Year"]]
+    grouped_crime_df = crime_df.groupby(["Primary_Type", "Year"]).size()
+    
+    # Formatting the grouped data
+    levels = len(grouped_crime_df.index.levels)
+    dicts = [{} for i in range(levels)]
+    last_index = None
+
+    for index,value in grouped_crime_df.items():
+
+        if not last_index:
+            last_index = index
+
+        for (ii,(i,j)) in enumerate(zip(index, last_index)):
+            if not i == j:
+                ii = levels - ii -1
+                dicts[:ii] =  [{} for _ in dicts[:ii]]
+                break
+
+        for i, key in enumerate(reversed(index)):
+            dicts[i][key] = value
+            value = dicts[i]
+
+        last_index = index
+
+
+    result = json.dumps(dicts[-1])
+    return result
+    
 
 
 if __name__ == "__main__":
