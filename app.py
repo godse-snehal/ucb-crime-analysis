@@ -58,6 +58,12 @@ def heatmap():
 def leaflet():
     return (g)
 
+@app.route("/leaflet/<crime_type>")
+def crimetypes(crime_type):
+    filtered_crime = filtered_df[filtered_df["Primary_Type"] == crime_type]
+    j_filtered = filtered_crime.to_json()
+    return (j_filtered)
+
 # route for arrestcrimetype
 @app.route("/crimetype")
 def crimetype():
@@ -115,7 +121,11 @@ def line():
     result = json.dumps(dicts[-1])
     return result
     
-
+# route for prediction analysis
+@app.route("/prediction")
+def prediction():
+    print("Rendering the crime prediction...")
+    return render_template("deployninas.html")
 
 if __name__ == "__main__":
     app.run()

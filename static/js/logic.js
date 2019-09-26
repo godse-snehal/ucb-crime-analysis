@@ -1,4 +1,7 @@
-function init() {
+
+
+function buildHeatMap(crime_type) {
+
   var myMap = L.map("container", {
     center: [41.8781, -87.6298],
     zoom: 11,
@@ -17,8 +20,13 @@ function init() {
 
 
   // Retrieve data from the CSV file and execute everything below
-  d3.json(`/leaflet`, function(response) {
+  var url = `/leaflet/${crime_type}`
+  d3.json(url, function(response) {
    
+    console.log("url", url)
+    
+
+
     // Create a new marker cluster group
     // var markers = L.markerClusterGroup();
     console.log("looping through the data...");
@@ -26,17 +34,18 @@ function init() {
     var j = 0;
     var heatArray = []; 
     // Loop through data
-    for (var i = 0; i <= 25000; i++) {
+    for (var i = 0; i <= 100000; i++) {
 
-
-    	if (response.Primary_Type[i] === "BATTERY") {
-        j = j+1;
-        heatArray.push([response.Latitude[i], response.Longitude[i]]);
+      j=j+1;
+      if ((response.Latitude[i] != 'null')) {
+      
+       heatArray.push([response.Latitude[i], response.Longitude[i]]);
 	      // Add a new marker to the cluster group and bind a pop-up
 	      // markers.addLayer(L.marker([response.latitude[i], response.longitude[i]])
 	      //   .bindPopup(response.primary_type[i]));
+       }
       }
-    }
+      
     console.log("loading heat map...", j);
     // Add our marker cluster layer to the map
     // myMap.addLayer(markers);
@@ -56,19 +65,19 @@ function init() {
 
 }
 
-init();
+
 
 //building a drop down
-function dropdown() {
+function init() {
   // Use the list of sample names to populate the select options
   d3.json(`/leaflet`, function(data) {
     console.log("looping through crime types");
     console.log(data);
     var unique_crimes = [];
     for (var i=0; i<= 25000; i++) {
-      crime_type = data.Primary_Type[i]
-     if (!(crime_type in unique_crimes)) {
-         unique_crimes.push(crime_type);
+      type = data.Primary_Type[i]
+     if (!(type in unique_crimes)) {
+         unique_crimes.push(type);
      }
     }
     console.log("unique_crimes")
@@ -87,13 +96,30 @@ function dropdown() {
         .text(crime)
         .property("value", crime);
     });
-     });
      
+    const initial = data.Primary_Type[0]
+
+    console.log("initial")
+    console.log(initial)
+    console.log("data")
     
-  
+    buildHeatMap(initial);
+
+  });
 }
 
-dropdown();
+
+
+function optionChanged(newCrime) {
+  // Fetch new data each time a new sample is selected
+  buildHeatMap(newCrime);
+};
+
+
+
+
+
+init();
 /*
  (c) 2014, Vladimir Agafonkin
  simpleheat, a tiny JavaScript library for drawing heatmaps with Canvas
