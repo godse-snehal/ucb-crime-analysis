@@ -1,12 +1,10 @@
-
+var myMap = L.map("container", {
+  center: [41.8781, -87.6298],
+  zoom: 11,
+  preferCanvas: true
+});
 
 function buildHeatMap(crime_type) {
-
-  var myMap = L.map("container", {
-    center: [41.8781, -87.6298],
-    zoom: 11,
-    preferCanvas: true
-  });
 
   // Adding tile layer to the map
   L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -31,21 +29,23 @@ function buildHeatMap(crime_type) {
     // var markers = L.markerClusterGroup();
     console.log("looping through the data...");
     console.log(response);
+    
+    
     var j = 0;
     var heatArray = []; 
     // Loop through data
-    for (var i = 0; i <= 100000; i++) {
-
-      j=j+1;
-      if ((response.Latitude[i] != 'null')) {
+    for (var i = 0; i < 1000; i++) {
       
+      j=j+1;
+    
+       console.log(response.Latitude[i])
        heatArray.push([response.Latitude[i], response.Longitude[i]]);
 	      // Add a new marker to the cluster group and bind a pop-up
 	      // markers.addLayer(L.marker([response.latitude[i], response.longitude[i]])
 	      //   .bindPopup(response.primary_type[i]));
        }
-      }
-      
+  
+    console.log(heatArray);
     console.log("loading heat map...", j);
     // Add our marker cluster layer to the map
     // myMap.addLayer(markers);
@@ -111,6 +111,7 @@ function init() {
 
 
 function optionChanged(newCrime) {
+  
   // Fetch new data each time a new sample is selected
   buildHeatMap(newCrime);
 };

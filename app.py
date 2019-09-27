@@ -35,7 +35,7 @@ crime_types = ['THEFT', 'BATTERY', 'CRIMINAL DAMAGE', 'NARCOTICS', 'ASSAULT',
 filtered_df = df[df.Primary_Type.isin(crime_types)]
 
 # prepare leaflet json
-dflocs = df[["Primary_Type", "Latitude", "Longitude"]].copy()
+dflocs = filtered_df[["Primary_Type", "Latitude", "Longitude"]].copy()
 g = dflocs.to_json()
 
 @app.route("/")
@@ -56,11 +56,12 @@ def heatmap():
     
 @app.route("/leaflet")
 def leaflet():
-    return (g)
+    for_dropdown = filtered_df.to_json()
+    return (for_dropdown)
 
 @app.route("/leaflet/<crime_type>")
 def crimetypes(crime_type):
-    filtered_crime = filtered_df[filtered_df["Primary_Type"] == crime_type]
+    filtered_crime = dflocs[dflocs["Primary_Type"] == crime_type].reset_index()
     j_filtered = filtered_crime.to_json()
     return (j_filtered)
 
