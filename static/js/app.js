@@ -57,9 +57,6 @@ d3.json('/line').then(function(response) {
           title: "No. of occurences"
         },
         title:'Crimes Over Years',
-        // autosize: false,
-        // width: 1200,
-        // height: 700,
       };
 
     Plotly.newPlot('line', data, layout);
@@ -94,8 +91,20 @@ d3.json('/time').then(function(response) {
     legend: { display: false },
     title: {
       display: true,
-      text: 'No. of Crime occurences by Time of the day'
-    }
+      text: 'No. of Crime occurences by Time of the day',
+      fontSize: 15,
+      padding: 30
+    },
+    maintainAspectRatio: false,
+    responsive:true,
+    layout: {
+      padding: {
+          left: 120,
+          right: 0,
+          top: 50,
+          bottom: 0
+      }
+  }
   }
 });
 
