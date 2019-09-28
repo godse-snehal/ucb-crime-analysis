@@ -14,7 +14,9 @@ d3.json(`/pie`).then(function(response) {
     };
     
     var data = [trace];
-    var layout = {title: "Chicago Crime Types (2010-2019)"};
+    var layout = {
+      title: "Chicago Crime Types (2010-2019)"
+    };
 
     Plotly.newPlot("pie", data, layout);
 });
@@ -25,7 +27,6 @@ d3.json('/line').then(function(response) {
 
     var data = [];
     for (const [key, value] of Object.entries(response)) {
-
         var crime_type = key;
         var crime_data = value;
         var crime_years = [];
@@ -55,7 +56,10 @@ d3.json('/line').then(function(response) {
         yaxis: {
           title: "No. of occurences"
         },
-        title:'Crimes Over Years'
+        title:'Crimes Over Years',
+        // autosize: false,
+        // width: 1200,
+        // height: 700,
       };
 
     Plotly.newPlot('line', data, layout);

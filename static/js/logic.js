@@ -21,15 +21,10 @@ function buildHeatMap(crime_type) {
   var url = `/leaflet/${crime_type}`
   d3.json(url, function(response) {
    
-    console.log("url", url)
-    
-
-
     // Create a new marker cluster group
     // var markers = L.markerClusterGroup();
     console.log("looping through the data...");
     console.log(response);
-    
     
     var j = 0;
     var heatArray = []; 
@@ -48,7 +43,6 @@ function buildHeatMap(crime_type) {
 	      //   .bindPopup(response.primary_type[i]));
        }
   
-    console.log(heatArray);
     console.log("loading heat map...", j);
     // Add our marker cluster layer to the map
     // myMap.addLayer(markers);
@@ -75,7 +69,6 @@ function init() {
   // Use the list of sample names to populate the select options
   d3.json(`/leaflet`, function(data) {
     console.log("looping through crime types");
-    console.log(data);
     var unique_crimes = [];
     for (var i=0; i<= 25000; i++) {
       type = data.Primary_Type[i]
@@ -83,28 +76,18 @@ function init() {
          unique_crimes.push(type);
      }
     }
-    console.log("unique_crimes")
-    console.log(unique_crimes)
+    
     let unique = [...new Set(unique_crimes)]; 
-     console.log("unique")
-     console.log(unique)
-     let unique_sort = unique.sort()
-     console.log("unique_sort")
-     console.log(unique_sort)
-
-     var selector = d3.select("#selDataset");
-     unique_sort.forEach((crime) => {
-      selector
-        .append("option")
-        .text(crime)
-        .property("value", crime);
+    let unique_sort = unique.sort()
+     
+    var selector = d3.select("#selDataset");
+    unique_sort.forEach((crime) => {
+      selector.append("option")
+              .text(crime)
+              .property("value", crime);
     });
      
     const initial = data.Primary_Type[0]
-
-    console.log("initial")
-    console.log(initial)
-    console.log("data")
     
     buildHeatMap(initial);
 

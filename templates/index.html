@@ -28,9 +28,6 @@
            <li class="nav-item">
              <a class="nav-link" href="/heatmap">Crime Concentration</a>
            </li>
-           <li class="nav-item">
-                <a class="nav-link" href="/prediction">Prediction Analysis</a>
-            </li>
          </ul>
        </div>
      </nav>
@@ -41,7 +38,7 @@
               <img src="/static/carchicago.jpg" alt="Chicago Crime">
           </div>
           <div id="tableforcrimedata" class="col-lg-5">
-              <table class="table table-dark" style="width:100%">
+              <table class="table table-dark" style="width:100%; margin-top: 50px;">
                   <thead>
                   <tr>
                     <th>Chicago Crime Data</th>
@@ -86,9 +83,14 @@
           </div>
           <div class="col-lg-1" style="background-color:black;"></div>
         </div>
-        <canvas id="bar-chart"></canvas>
-          
-        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+        <div class="row">
+          <div class="col-lg-1" style="background-color:black;"></div>
+          <div class="col-lg-10">
+            <canvas id="bar-chart"></canvas>
+          </div>
+          <div class="col-lg-1" style="background-color:black;"></div>
+        </div>
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
