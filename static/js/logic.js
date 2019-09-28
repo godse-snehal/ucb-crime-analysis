@@ -33,8 +33,11 @@ function buildHeatMap(crime_type) {
     
     var j = 0;
     var heatArray = []; 
+    heatArray.length = 0;
+    console.log("heatArray")
+    console.log(heatArray)
     // Loop through data
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 500; i++) {
       
       j=j+1;
     
