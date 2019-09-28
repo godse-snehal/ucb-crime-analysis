@@ -22,10 +22,8 @@ d3.json(`/pie`).then(function(response) {
 d3.json('/line').then(function(response) {
 
     console.log("inside line chart building...");
-    console.log(response);
 
     var data = [];
-    
     for (const [key, value] of Object.entries(response)) {
 
         var crime_type = key;
@@ -64,3 +62,37 @@ d3.json('/line').then(function(response) {
     
 });
 
+
+d3.json('/time').then(function(response) { 
+
+  var bin_names = [];
+  var occurences = [];
+  for (const [key, value] of Object.entries(response)) {
+    bin_names.push(key);
+    occurences.push(value);
+  }
+  
+  // var ctx = document.getElementById('bar-chart').getContext('2d');
+  // Bar chart
+  new Chart(document.getElementById('bar-chart'), {
+  type: 'bar',
+  data: {
+    labels: bin_names,
+    datasets: [
+      {
+        label: "No. of crimes occurred",
+        backgroundColor: ["#3e95cd", "#3e95cd","#3e95cd","#3e95cd","#3e95cd", "#3e95cd", "#3e95cd", "#3e95cd"],
+        data: occurences
+      }
+    ]
+  },
+  options: {
+    legend: { display: false },
+    title: {
+      display: true,
+      text: 'No. of Crime occurences by Time of the day'
+    }
+  }
+});
+
+});
