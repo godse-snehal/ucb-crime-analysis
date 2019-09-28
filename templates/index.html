@@ -9,12 +9,13 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
 
 </head>
 <body>
     <header>
     <!--Navigation bar-->
-     <nav class="navbar navbar-expand-lg navbar-light bg-custum">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
        <a class="navbar-brand" id="homepagelat" href="/">Chicago Crime-Home</a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
            <span class="navbar-toggler-icon"></span>
@@ -34,19 +35,63 @@
        </div>
      </nav>
     </header>
-    <body>
         <div class="row">
-        <div id="findcoolpicture">
+          <div class="col-lg-1" style="background-color:black;"></div>
+          <div id="picture"class="col-lg-5">
+              <img src="images/chicago.jpg" alt="Chicago Crime">
+          </div>
+          <div id="tableforcrimedata" class="col-lg-5">
+              <table class="table table-dark" style="width:100%">
+                  <thead>
+                  <tr>
+                    <th>Chicago Crime Data</th>
+                    <th>Facts</th> 
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td># of Crimes (Rows)</td>
+                    <td>2,868,964</td> 
+                  </tr>
+                  <tr>
+                    <td># of Crime Types</td>
+                    <td>33</td> 
+                  </tr>
+                  <tr>
+                      <td>Start & End Dates</td>
+                      <td>2010-01-01 to 2019-09-10</td> 
+                    </tr>
+                  </tbody>
+                </table> 
+         </div>
+         <div class="col-lg-1" style="background-color:black;"></div>
+         </div>
+         <hr>
+        <div class="row">
+          <div class="col-lg-1" style="background-color:black;"></div>
+          <div class="col-lg-10">
+          <div id=pie>
+          </div>
+          <p><strong>Summary:</strong> The Chicago Crime data set has total of 33 crime types. The pie chart depicts the top 10 categories of crime from 2010 to 2019.</p>
+         </div>
+         <div class="col-lg-1" style="background-color:black;"></div>
         </div>
-        <div id="tableforcrimedata">
+        <hr>
+        <div class="row">
+          <div class="col-lg-1" style="background-color:black;"></div>
+          <div class="col-lg-10">
+            <div id="line"></div>
+            <p><strong>Summary:</strong> Many of the crime types in Chicago have seen a decline, approximately 50%, from 2010-2019. Weapons violations has an increase since 2016. In 2016 there was a spike in homicide crimes.</p>
+          </div>
+          <div class="col-lg-1" style="background-color:black;"></div>
         </div>
-        <div id=pie>
+        <div class="row">
+            <div class="col-lg-1" style="background-color:black;"></div>
+            <div class="col-lg-10">
+                <canvas id="bar-chart"></canvas>
+            </div>
+            <div class="col-lg-1" style="background-color:black;"></div>
         </div>
-        <div id="line">
-        </div>
-        </div>
-        <canvas id="bar-chart"></canvas>
-
         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
