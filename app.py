@@ -127,18 +127,12 @@ def line():
 def time():
     crime_time_df = filtered_df[["Date"]]
     # Create bins for time
-    group_names = ["0-3", "3-6", "6-9", "9-12", "12-15", "15-18", "18-21", "21-24"]
+    group_names = ["Midnight-3:00", "3:00-6:00", "6:00-9:00", "9:00-12:00", "12:00-15:00", "15:00-18:00", 
+        "18:00-21:00", "21:00-Midnight"]
     crime_time_df["Time_Bins"] = pd.cut(crime_time_df.Date.dt.hour, bins=8, labels=group_names)
     binned_time_df = crime_time_df.groupby("Time_Bins").size()
 
     return (binned_time_df.to_json())
-
-    
-# route for prediction analysis
-@app.route("/prediction")
-def prediction():
-    print("Rendering the crime prediction...")
-    return render_template("deployninas.html")
 
 if __name__ == "__main__":
     app.run()
