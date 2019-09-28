@@ -121,6 +121,18 @@ def line():
 
     result = json.dumps(dicts[-1])
     return result
+
+
+@app.route("/time")
+def time():
+    crime_time_df = filtered_df[["Date"]]
+    # Create bins for time
+    group_names = ["0-3", "3-6", "6-9", "9-12", "12-15", "15-18", "18-21", "21-24"]
+    crime_time_df["Time_Bins"] = pd.cut(crime_time_df.Date.dt.hour, bins=8, labels=group_names)
+    binned_time_df = crime_time_df.groupby("Time_Bins").size()
+
+    return (binned_time_df.to_json())
+
     
 # route for prediction analysis
 @app.route("/prediction")
